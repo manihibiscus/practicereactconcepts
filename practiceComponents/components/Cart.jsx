@@ -1,21 +1,12 @@
-import {useEffect, useState } from "react"
+import {useEffect} from "react"
 import { useDispatch, useSelector } from "react-redux";
-import { removeCart } from "../../Form/Store/SliceProduct";
+import { removeCart,totalAmount } from "../../Form/Store/SliceProduct";
 export const Cart = () => {
     const value=useSelector((state)=>state.counter2);
     const dispatch = useDispatch();
-    const [total, setTotal]=useState(0)
 
       useEffect(()=>{
-        const grandTotal = value.cart
-        let val = 0
-        for(let i=0; i<grandTotal.length;i++){
-            val+=parseInt(grandTotal[i].price)  
-            setTotal(val)
-        }
-        if(value.cart.length == 0){
-            setTotal(0);
-        }
+        dispatch(totalAmount());
         },[value.cart]);
   return (
     <>
@@ -48,7 +39,7 @@ export const Cart = () => {
     ))} 
     </div>
     <div>
-        Grand Total: {total}
+        Grand Total: {value.total}
     </div>
     
    </>

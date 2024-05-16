@@ -1,10 +1,13 @@
 import { createSlice } from "@reduxjs/toolkit";
-import {products} from '../../practiceComponents/db.json'
+// import {products} from '../../practiceComponents/db.json'
+import axios from "axios";
+
+
 
 export const productSlice = createSlice({
     name:"productSlice",
     initialState:{
-        product:products,
+        product:[],
         cart:[],
         total:0
     },
@@ -15,11 +18,35 @@ export const productSlice = createSlice({
         removeCart:(state, action)=>{
             state.cart=(state.cart.filter((c)=>c.id !== action.payload))
         },
-        totalAmount:(state,action)=>{
-            state.total= action.payload
+        totalAmount:(state)=>{
+        const grandTotal = state.cart
+        let val = 0
+        for(let i=0; i<grandTotal.length;i++){
+            val+=parseInt(grandTotal[i].price)  
+            state.total=val
+        }
+        if(state.cart.length == 0){
+            state.total=0;
+        }
+        },
+        fetchProduct:(state,action)=>{
+            state.product=action.payload
         }
     }
 });
 
-export const {addCart, removeCart, totalAmount}=productSlice.actions
+export const fetchData = () => {
+    return async (dispatch) => {
+        try {
+            const response = await axios.get('http://localhost:3000/products');
+            const data = response.data;
+            console.log(data);
+            dispatch(fetchProduct(data)); // Corrected function name
+        } catch (error) {
+            console.error('Error fetching data:', error);
+        }
+    };
+};
+
+export const {addCart, removeCart, totalAmount, fetchProduct}=productSlice.actions
 export default productSlice.reducer
