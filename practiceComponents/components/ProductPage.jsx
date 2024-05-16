@@ -1,17 +1,11 @@
-import { useContext } from "react"
-import {UsingContext} from "../PracticeConcepts"
+import { useSelector, useDispatch } from "react-redux";
+import {addCart, removeCart} from "../../Form/Store/SliceProduct";
+
 
 export const ProductPage = () => {
-    const value=useContext(UsingContext)
-
-    const addCart=(p)=>{
-      value.setCart([...value.cart,p]);
-      console.log(value.cart)
-    }
-    const removeCart=(id)=>{
-      value.setCart(value.cart.filter((c)=>c.id !== id))
-    }
-   
+    const value=useSelector((state)=>(state.counter2));
+    const dispatch=useDispatch();
+ 
   return (  
     <>
     <div className="grid grid-cols-5 gap-4">
@@ -37,7 +31,7 @@ export const ProductPage = () => {
             <p>{product.category}</p>
           </div>
           <div className="ml-20">
-            {value.cart.includes(product) ? <button onClick={()=>removeCart(product.id)} className="border-2 border-white bg-red-500 text-white rounded-md p-1">Remove from Cart</button>: <button onClick={()=>addCart(product)} className="border-2 border-white bg-blue-950 text-white rounded-md p-1">Add to Cart</button>}
+            {value.cart.includes(product) ? <button onClick={()=>dispatch(removeCart(product.id))} className="border-2 border-white bg-red-500 text-white rounded-md p-1">Remove from Cart</button>: <button onClick={()=>dispatch(addCart(product))} className="border-2 border-white bg-blue-950 text-white rounded-md p-1">Add to Cart</button>}
           </div>
         </div>
     ))} 

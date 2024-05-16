@@ -40,6 +40,7 @@ export const BmiSlice = createSlice({
 
 });
 
+// eslint-disable-next-line react-refresh/only-export-components
 export const {calculateBmi, setHeight, setWeight} = BmiSlice.actions
 
 export default BmiSlice.reducer

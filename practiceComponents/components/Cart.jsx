@@ -1,17 +1,16 @@
-import { useContext, useEffect, useState } from "react"
-import { UsingContext } from "../PracticeConcepts"
-
+import {useEffect, useState } from "react"
+import { useDispatch, useSelector } from "react-redux";
+import { removeCart } from "../../Form/Store/SliceProduct";
 export const Cart = () => {
-    const value=useContext(UsingContext);
+    const value=useSelector((state)=>state.counter2);
+    const dispatch = useDispatch();
     const [total, setTotal]=useState(0)
-    const removeCart=(id)=>{
-        value.setCart(value.cart.filter((c)=>c.id !== id))
-      }
+
       useEffect(()=>{
         const grandTotal = value.cart
         let val = 0
         for(let i=0; i<grandTotal.length;i++){
-            val+=parseInt(grandTotal[i].price)
+            val+=parseInt(grandTotal[i].price)  
             setTotal(val)
         }
         if(value.cart.length == 0){
@@ -43,7 +42,7 @@ export const Cart = () => {
             <p>{cart.category}</p>
           </div>
           <div className="ml-20">
-            <button onClick={()=>removeCart(cart.id)} className="border-2 border-white bg-red-500 text-white rounded-md p-1">Remove from Cart</button>
+            <button onClick={()=>dispatch(removeCart(cart.id))} className="border-2 border-white bg-red-500 text-white rounded-md p-1">Remove from Cart</button>
         </div>
         </div>
     ))} 
