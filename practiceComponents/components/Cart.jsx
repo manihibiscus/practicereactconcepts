@@ -8,9 +8,10 @@ export const Cart = () => {
       useEffect(()=>{
         dispatch(totalAmount());
         },[value.cart]);
+
   return (
     <>
-    <div className="grid grid-cols-5 gap-4">
+    <div className="grid grid-cols-5 gap-4 m-4">
      {value.cart.map(cart=>(
         <div className="bg-gray-200 p-6" key={cart.id}>
           <div className="bg-slate-100 pl-8 p-2">
@@ -32,15 +33,25 @@ export const Cart = () => {
             <p>Category:</p>
             <p>{cart.category}</p>
           </div>
-          <div className="ml-20">
-            <button onClick={()=>dispatch(removeCart(cart.id))} className="border-2 border-white bg-red-500 text-white rounded-md p-1">Remove from Cart</button>
+          <div className="flex">
+            <p>Quantity Count : </p>
+            <p>
+              {cart.id===value.quantity.productId ? <p> {value.quantity.quantityCount}</p>: <p> Only One</p>  } 
+            </p>
+          </div>
+          <div className="flex">
+            <p>Total: </p>
+            <p>{cart.id===value.quantity.productId ? <p>{(parseInt(value.quantity.quantityCount)*cart.price).toFixed(2)}</p> : <p>{cart.price} </p>}</p>
+          </div>
+          <div className="">
+            <button onClick={()=>dispatch(removeCart(cart))} className="border-2 border-white bg-red-500 text-white rounded-md p-1 ml-12 mt-2">Remove from Cart</button>
         </div>
         </div>
     ))} 
     </div>
-    <div>
+    {/* <div>
         Grand Total: {value.total}
-    </div>
+    </div> */}
     
    </>
   )
